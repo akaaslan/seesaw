@@ -1,8 +1,9 @@
 const bar = document.getElementById('bar');
-
+const reset = document.getElementById('reset-button');
 let weights = [];
 
 bar.addEventListener('click', handleBarClick);
+reset.addEventListener('click', resetSeesaw);
 
 let angleCurrent = 0;
 let angleTarget = 0;
@@ -71,14 +72,40 @@ function updatePhysics() {
     const maxAngle = 30;
 
     if (rawAngle > maxAngle) {
-        targetAngle = maxAngle;
+        angleTarget = maxAngle;
     } else if (rawAngle < -maxAngle) {
-        targetAngle = -maxAngle;
+        angleTarget = -maxAngle;
     } else {
-        targetAngle = rawAngle;
+        angleTarget = rawAngle;
     }
 
     leftWeightSpan.textContent = massLeft;
     rightWeightSpan.textContent = massRight;
-    angleSpan.textContent = targetAngle.toFixed(1) + "°";
+    angleSpan.textContent = angleTarget.toFixed(1) + "°";
 }
+
+function animate() {
+    const smoothing = 0.1;
+
+    angleCurrent += (angleTarget - angleCurrent) * smoothing;
+    bar.style.transform = 'rotate(' + angleCurrent + 'deg)';
+
+    requestAnimationFrame(animate);
+}
+
+
+function resetSeesaw() {
+    weights.forEach(weight => {
+        weight.element.remove();
+    })
+
+    weights = [];
+    angleTarget = 0;
+    // angleCurrent = 0;
+
+    leftWeightSpan.textContent = "0";
+    rightWeightSpan.textContent = "0";
+    angleSpan.textContent = "0°";
+
+}
+animate();
