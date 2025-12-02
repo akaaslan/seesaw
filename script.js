@@ -1,5 +1,5 @@
-const bar = document.getElementById('bar');
-const reset = document.getElementById('reset-button');
+const bar = document.getElementById("bar");
+const reset = document.getElementById("reset-button");
 let weights = [];
 
 let nextMass= Math.floor(Math.random() * 10) + 1;
@@ -14,8 +14,8 @@ const weightPreview = document.createElement("div");
 weightPreview.classList.add("weight-preview");
 bar.appendChild(weightPreview);
 
-bar.addEventListener('click', handleBarClick);
-reset.addEventListener('click', resetSeesaw);
+bar.addEventListener("click", handleBarClick);
+reset.addEventListener("click", resetSeesaw);
 
 
 function handleBarClick(event) {
@@ -23,10 +23,11 @@ function handleBarClick(event) {
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
     
+    // rotate edildiginde mouse pozisyonu ve
+    // yeni weight pozisyonu arasindaki uyusmazlik fix"i
     const dx = event.clientX - centerX;
     const dy = event.clientY - centerY;
     
-    // acinin radyan degeri
     const angleRad = (angleCurrent * Math.PI) / 180;
     
     const rotatedX = dx * Math.cos(-angleRad) - dy * Math.sin(-angleRad);
@@ -49,7 +50,7 @@ function handleBarClick(event) {
 }
 
 function createWeightElement(mass, clickXInsideBar) {
-    const weightElement = document.createElement('div');
+    const weightElement = document.createElement("div");
     weightElement.classList.add("weight");
     weightElement.textContent = mass;
 
@@ -62,13 +63,13 @@ function createWeightElement(mass, clickXInsideBar) {
 
     weightElement.style.left = (clickXInsideBar - elementSize / 2) + "px";
     weightElement.style.top = (-elementSize - 2) + "px";
-
+    
     if(mass <= 3) {
-        const greens = ["#90EE90", "#20cd20b9", "#228B22"];
+        const greens = ["#90EE90", "#20cd20ff", "#228B22"];
         weightElement.style.background = greens[mass - 1];
         weightElement.style.borderColor = greens[mass - 1];
     } else if (mass <= 7) {
-        const yellows = ["#FFFF99", "#ffeb3b", "#FFD700"];
+        const yellows = ["#FFFF99", "#ffeb3b", "#FFD700", "#FFA500"];
         weightElement.style.background = yellows[mass - 4];
         weightElement.style.borderColor = yellows[mass - 4];
     } else {
@@ -78,6 +79,11 @@ function createWeightElement(mass, clickXInsideBar) {
     }
 
     bar.appendChild(weightElement);
+
+    setTimeout(() => {
+        weightElement.style.transition = "top 0.9s ease";
+        weightElement.style.top = (-elementSize) + "px";
+    })
 
     return weightElement;
 }
@@ -119,7 +125,7 @@ function animate() {
     const smoothing = 0.1;
 
     angleCurrent += (angleTarget - angleCurrent) * smoothing;
-    bar.style.transform = 'rotate(' + angleCurrent + 'deg)';
+    bar.style.transform = "rotate(" + angleCurrent + "deg)";
 
     requestAnimationFrame(animate);
 }
@@ -153,12 +159,28 @@ bar.addEventListener("mousemove", (e) => {
     
     const hoverX = rect.width / 2 + rotatedX;
     
+
     const previewSize = 20 + (nextMass * 5);
     weightPreview.textContent = nextMass;
     weightPreview.style.width = previewSize + "px";
     weightPreview.style.height = previewSize + "px";
     weightPreview.style.left = (hoverX - previewSize / 2) + "px";
-    weightPreview.style.top = (-previewSize - 2) + "px";
+    weightPreview.style.top = (-previewSize - 40) + "px";
+
+    let color;
+    if(nextMass <= 3) {
+        const greens = ["rgba(144, 238, 144, 0.5)", "rgba(32, 205, 32, 0.5)", "rgba(34, 139, 34, 0.5)"];
+        color = greens[nextMass - 1];
+    } else if (nextMass < 8) {
+        const yellows = ["rgba(255, 255, 100, 0.9)", "rgba(255, 235, 59, 0.9)", "rgba(255, 215, 0, 1)", "rgba(255, 165, 0, 0.9)"];
+        color = yellows[nextMass - 4];
+    } else {
+        const reds = ["rgba(255, 127, 127, 0.5)", "rgba(255, 76, 76, 0.5)", "rgba(255, 0, 0, 0.5)"];
+        color = reds[nextMass - 8];
+    }
+    weightPreview.style.borderColor = color;
+    weightPreview.style.color = color;
+    weightPreview.style.setProperty("--arrow-color", color);
 });
 
 bar.addEventListener("mouseleave", () => {

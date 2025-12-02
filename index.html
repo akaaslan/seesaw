@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,10 +18,15 @@
         </div>
         
         <div id="info">
-            <div> Left total: <span id = "left-weight">0</span> kg</div>
-            <div> Right total: <span id = "right-weight">0</span> kg</div>
-            <div> Angle <span id = "angle">0</span> degrees</div>
+            <div id="left-info"> Left total: <span id = "left-weight">0</span> kg</div>
+            <div id="right-info"> Right total: <span id = "right-weight">0</span> kg</div>
+            <div id="angle-info"> Angle<span id = "angle">0</span> degrees</div>
             <button id="reset-button">Reset</button>
+        </div>
+
+        <div id="log">
+            <h3>Weight History</h3>
+            <div id="entries"></div>
         </div>
     </div>
 
