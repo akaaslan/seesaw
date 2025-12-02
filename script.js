@@ -59,14 +59,17 @@ function handleBarClick(event) {
 function createWeightElement(mass, clickXInsideBar) {
     const weightElement = document.createElement("div");
     weightElement.classList.add("weight");
-    weightElement.textContent = mass;
+    weightElement.textContent = mass + " kg";
 
     const baseSize = 20;
     const sizeRate = 5;
     const elementSize = baseSize + (mass * sizeRate);
+    
+    const fontSize = 8 + (mass * 1.5);
 
     weightElement.style.width = elementSize + "px";
     weightElement.style.height = elementSize + "px";
+    weightElement.style.fontSize = fontSize + "px";
 
     weightElement.style.left = (clickXInsideBar - elementSize / 2) + "px";
     weightElement.style.top = (-elementSize - 2) + "px";
@@ -198,9 +201,11 @@ bar.addEventListener("mousemove", (e) => {
     
 
     const previewSize = 20 + (nextMass * 5);
+    const fontSize = 6 + (nextMass * 1.5);
     weightPreview.textContent = nextMass + " kg";
     weightPreview.style.width = previewSize + "px";
     weightPreview.style.height = previewSize + "px";
+    weightPreview.style.fontSize = fontSize + "px";
     weightPreview.style.left = (hoverX - previewSize / 2) + "px";
     weightPreview.style.top = (-previewSize - 40) + "px";
 
