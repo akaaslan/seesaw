@@ -43,7 +43,7 @@ function handleBarClick(event) {
     const weightElement = createWeightElement(mass, clickX);
     
     weightSound.currentTime = 0;
-    weightSound.playbackRate = 3.0 - (mass * 0.1);
+    weightSound.playbackRate = 2.0 - (mass * 0.1);
     weightSound.play();
     weights.push({
         mass: mass,
